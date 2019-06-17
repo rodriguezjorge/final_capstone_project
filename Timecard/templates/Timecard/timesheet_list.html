@@ -1,0 +1,57 @@
+{% extends "JobCode/base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-2 col-md-2">
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-light"><a href="{% url 'job-list' %}">Job Code Management</a>
+            </li>
+            <li class="list-group-item list-group-item-light"><a href="{% url 'machine-list' %}">Machine Management</a>
+            </li>
+            <li class="list-group-item list-group-item-light"><a href="{% url 'timesheet-list' %}">Timecard
+                    Approval</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-lg-10 col-md-10">
+        <div class="text-right">
+            <h3><a href="{% url 'timesheet-create'  %}"> Add New</a></h3>
+        </div>
+
+        <table class="table  table-bordered table-hover">
+            <thead class="">
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Site Code</th>
+                    <th scope="col">Contractor Name</th>
+                    <th scope="col">Total Hrs</th>
+                    <th scope="col">Total Amaount</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for site in timesheet_list%}
+                <tr>
+                    <th scope="row"></th>
+                    <td>{{ site.site_code }}</td>
+                    <td>{{ site.contractor }}</td>
+                    <td>{{ site.total_hrs }}</td>
+                    <td>{{ site.total_amount }}</td>
+                    {% if site.status is True %}
+                    <td>Finalized</td>
+                    {% else %}
+                    <td><a href="{% url 'timesheet-update' site.id %}">Review</a></td>
+                    {% endif %}
+
+
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

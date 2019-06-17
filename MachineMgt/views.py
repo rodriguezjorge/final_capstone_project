@@ -12,12 +12,12 @@ class MachineDetailView(DetailView):
 
 class MachineCreateView(CreateView):
     model=Machine
-    fields = ['machine_code', 'description','hourly_rate','max_hour_per_day']
+    fields = ['machine_code', 'description','hourly_rent','max_hour_per_day']
 
 class MachineUpdateView(UpdateView):
     model=Machine
 
-    fields = ['machine_code', 'description','hourly_rate','max_hour_per_day']
+    fields = ['machine_code', 'description','hourly_rent','max_hour_per_day']
 
 class MachineDeleteView(DeleteView):
     model=Machine

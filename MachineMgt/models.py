@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 class Machine(models.Model):
 	machine_code = models.CharField(max_length=250, unique=True)
@@ -7,3 +8,5 @@ class Machine(models.Model):
 	max_hour_per_day = models.IntegerField()
 	def __str__(self):
 		return '{}'.format(self.machine_code)
+	def get_absolute_url(self):
+		return reverse('machine-list')

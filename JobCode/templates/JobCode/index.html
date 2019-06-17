@@ -2,12 +2,15 @@
 {% block content %}
 <div class="row">
   <div class="col-lg-2 col-md-2">
+
     <ul class="list-group">
       <li class="list-group-item list-group-item-light"><a href="{% url 'job-list' %}">Job Code Management</a></li>
       <li class="list-group-item list-group-item-light"><a href="{% url 'machine-list' %}">Machine Management</a></li>
-      <li class="list-group-item list-group-item-light"><a href="#">Time Card approval</a></li>
+      <li class="list-group-item list-group-item-light"><a href="{% url 'timesheet-list' %}">Timecard Approval</a></li>
     </ul>
   </div>
+
+
   <div class="col-lg-10 col-md-10">
 
   </div>
