@@ -4,7 +4,7 @@ import datetime
 
 
 class Timesheet(models.Model):
-    site_code = models.CharField(max_length=250, unique=True)
+    site_code = models.CharField(max_length=250)
     contractor = models.CharField(max_length=250, blank=True)
     total_amount = models.DecimalField(max_digits=20, decimal_places=2)
     total_hrs = models.PositiveIntegerField()

@@ -1,5 +1,6 @@
 {% extends "JobCode/base.html" %}
 {% block content %}
+{%if user.is_staff%}
 <div class="row">
   <div class="col-lg-2 col-md-2">
     <ul class="list-group">
@@ -44,5 +45,9 @@
   </div>
 
 </div>
+
+{%else%}
+<label>You don't have the permision to access this page.</label>
+{%endif%}
 
 {% endblock %}

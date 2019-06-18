@@ -2,18 +2,98 @@
 {% block content %}
 <div class="row">
   <div class="col-lg-2 col-md-2">
-
+    {% if user.is_staff %}
     <ul class="list-group">
       <li class="list-group-item list-group-item-light"><a href="{% url 'job-list' %}">Job Code Management</a></li>
       <li class="list-group-item list-group-item-light"><a href="{% url 'machine-list' %}">Machine Management</a></li>
-      <li class="list-group-item list-group-item-light"><a href="{% url 'timesheet-list' %}">Timecard Approval</a></li>
+      <li class="list-group-item list-group-item-light"><a href="{% url 'timesheet-list' %}">Time Card approval</a></li>
     </ul>
+    {% else %}
+    <ul class="list-group">
+      <li class="list-group-item list-group-item-light"><a href="#">Timecard Submission</a></li>
+
+    </ul>
+    {% endif %}
   </div>
-
-
+  {% if user.is_staff %}
   <div class="col-lg-10 col-md-10">
+    <div class="text-right">
+      <h3><a href="{% url 'job-create'  %}"> Add New</a></h3>
+    </div>
+
+    <table class="table  table-bordered table-hover">
+      <thead class="">
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Job Code</th>
+          <th scope="col">Description</th>
+          <th scope="col">Hourly Rate</th>
+          <th scope="col">Max Hour Per Day</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for job in job_list%}
+        <tr>
+          <th scope="row"></th>
+          <td>{{ job.job_code }}</td>
+          <td>{{ job.description }}</td>
+          <td>{{ job.hourly_rate }}</td>
+          <td>{{ job.max_hour_per_day }}</td>
+          <td><a href="{% url 'job-update' job.id %}">edit</a></td>
+          <td><a href="{% url 'job-delete' job.id %}">delete</a></td>
+
+        </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+
 
   </div>
+  {% else %}
+  <div class="col-lg-10 col-md-10">
+    <div class="text-right">
+      <h3><a href="{% url 'timesheet-create'  %}"> Enter new timesheet</a></h3>
+    </div>
+
+    <table class="table  table-bordered table-hover">
+      <thead class="">
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Site Code</th>
+          <th scope="col">Contractor Name</th>
+          <th scope="col">Total Hrs</th>
+          <th scope="col">Total Amaount</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for site in timesheet_list %}
+        <tr>
+          <th scope="row"></th>
+          <td>{{ site.site_code }}</td>
+          <td>{{ site.contractor }}</td>
+          <td>{{ site.total_hrs }}</td>
+          <td>{{ site.total_amount }}</td>
+          {% if site.status is True %}
+          <td>Finalized</td>
+          {% else %}
+          <td>OpeN</td>
+          {% endif %}
+
+
+
+        </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+
+  </div>
+
+  {% endif %}
 
 </div>
 

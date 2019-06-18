@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="content-section">
-    <form method="POST">
+    <form method="POST" action="time">
 
         {% csrf_token %}
 
@@ -20,10 +20,17 @@
 
             <div class="input_fields_wrap">
 
-                <div><label>Labor Code:</label><select name="dropdown1">{% for site in job %}<option value="{{ site}}">
+                <div><label>Labor Code:</label><select name="dropdown1" id='select1'>{% for site in job %}<option
+                            value="{{ site}}">
                             {{ site }}</option>
                         {% endfor %}</select><label>Hrs.Worked:</label><input type="text"
-                        name="mytext[]" /><label>Total:</label><input type="text" name="mytext[]" /></div>
+                        name="mytext1" /><label>Total:</label><input type="text" name="mytext2" /></div>
+
+
+                <h3 id='preview_title'></h3>
+
+
+
             </div>
             <button class="add_field_button">Add More Fields</button>
 
@@ -40,11 +47,11 @@
 
             <div class="input_fields_wrap2">
 
-                <div><label>Machine Code:</label><select name="dropdown1">{% for site in machine %}<option
+                <div><label>Machine Code:</label><select name="dropdown2" id='select2'>{% for site in machine %}<option
                             value="{{ site}}">
                             {{ site }}</option>
                         {% endfor %}</select><label>Hrs.Worked:</label><input type="text"
-                        name="mytext[]" /><label>Total:</label><input type="text" name="mytext[]" /></div>
+                        name="mytext1" /><label>Total:</label><input type="text" name="mytext2" /></div>
             </div>
             <button class="add_field_button2">Add More Fields</button>
 
@@ -78,7 +85,7 @@
                 x++; //text box increment
 
                 $(wrapper).append(
-                    '<div><label>Labor Code:</label><select name="dropdown1">{% for site in job %}<option value="{{ site}}">{{ site }}</option>{% endfor %}</select ><label>Hrs.Worked:</label><input type="text" name="mytext[]"/><label>Total:</label><input type="text" name="mytext[]"/><a href="#" class="remove_field">Remove</a></div>'
+                    '<div><label>Labor Code:</label><select name="dropdown1">{% for site in job %}<option value="{{ site}}">{{ site }}</option>{% endfor %}</select ><label>Hrs.Worked:</label><input type="text" name="mytext1"/><label>Total:</label><input type="text" name="mytext2"/><a href="#" class="remove_field">Remove</a></div>'
                 ); //add input box
             }
         });
@@ -101,7 +108,7 @@
                 x++; //text box increment
 
                 $(wrapper).append(
-                    '<div><label>Machine Code:</label><select name="dropdown1">{% for site in machine %}<option value="{{ site}}">{{ site }}</option>{% endfor %}</select ><label>Hrs.Worked:</label><input type="text" name="mytext[]"/><label>Total:</label><input type="text" name="mytext[]"/><a href="#" class="remove_field">Remove</a></div>'
+                    '<div><label>Machine Code:</label><select name="dropdown2">{% for site in machine %}<option value="{{ site}}">{{ site }}</option>{% endfor %}</select ><label>Hrs.Worked:</label><input type="text" name="mytext1"/><label>Total:</label><input type="text" name="mytext2"/><a href="#" class="remove_field">Remove</a></div>'
                 ); //add input box
             }
         });
@@ -110,6 +117,19 @@
             e.preventDefault(); $(this).parent('div').remove(); x--;
         })
     });
+
+
+
+
+
+
+    $(document).ready(function () {
+        var titleItem = $("#id_select_code");
+        $("#preview_title").text(titleItem.val())
+    });
+
+
+
 </script>
 
 {% endblock content %}
