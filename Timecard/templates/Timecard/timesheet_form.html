@@ -56,7 +56,7 @@
                         <option value="{{ site.1}}">{{ site.0 }}</option>
                         {% endfor %}
                     </select><label>Hrs.Worked:</label><input type="text" name="mytext1" id="textEmp21"
-                        onkeyup="changeLabel2()" required /><label>Total:</label><label id="lblEmp21">N/A</label></div>
+                        onkeyup="changeLabel2()" /><label>Total:</label><label id="lblEmp21">N/A</label></div>
             </div>
             <button class="add_field_button2">Add More Fields</button>
 
@@ -161,7 +161,6 @@
             let txt = document.getElementById('textEmp1' + j).value;
             let empName = document.getElementById('select1' + j).value;
             let val = txt * empName;
-
             lbl.innerText = val;       // TREATS EVERY CONTENT AS TEXT.
             j++;
         }

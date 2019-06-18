@@ -30,9 +30,9 @@ def get_name(request):
     if request.method == 'POST':
         form = request.POST
         mydict = dict(form.lists())
-        hrs_list1 = [int(i) for i in mydict['mytext1']]
+        hrs_list = [int(i) for i in mydict['mytext1']]
         
-        hrs_sum = sum(hrs_list1)
+        hrs_sum = sum(hrs_list)
         
         droplist = []
 
@@ -43,8 +43,8 @@ def get_name(request):
         for i in mydict['dropdown2']:
             droplist.append(float(i))
         print(droplist)    
-        # total_list = [x * y for x, y in zip(hrs_list, droplist)]
-        total_sum = sum(droplist)
+        total_list = [x * y for x, y in zip(hrs_list, droplist)]
+        total_sum = sum(total_list)
         ts = Timesheet()
         ts.site_code = mydict['site_code'][0]
         ts.date = mydict['date'][0]
@@ -52,8 +52,8 @@ def get_name(request):
         ts.total_hrs = hrs_sum
         ts.total_amount = total_sum
         ts.save()
-        # print(hrs_sum)
-        # print(total_sum)
+        print(hrs_sum)
+        print(total_sum)
     # return render(request, 'Timecard/output_form.html', {'form': form})
     return redirect('/')
 
