@@ -20,11 +20,13 @@
 
             <div class="input_fields_wrap">
 
-                <div><label>Labor Code:</label><select name="dropdown1" id='select1'>{% for site in job %}<option
-                            value="{{ site}}">
-                            {{ site }}</option>
-                        {% endfor %}</select><label>Hrs.Worked:</label><input type="text"
-                        name="mytext1" /><label>Total:</label><input type="text" name="mytext2" /></div>
+                <div><label>Labor Code:</label><select name="dropdown1" id='select11' onchange="changeLabel1()">
+                        <option disabled selected value> -- select an option -- </option>
+                        {% for site in job %}<option value="{{ site.1}}">
+                            {{ site.0 }}</option>
+                        {% endfor %}
+                    </select><label>Hrs.Worked:</label><input type="text" name="mytext1" id="textEmp11"
+                        onkeyup="changeLabel1()" required/><label>Total:</label><label id="lblEmp11">N/A</label></div>
 
 
                 <h3 id='preview_title'></h3>
@@ -47,11 +49,14 @@
 
             <div class="input_fields_wrap2">
 
-                <div><label>Machine Code:</label><select name="dropdown2" id='select2'>{% for site in machine %}<option
-                            value="{{ site}}">
-                            {{ site }}</option>
-                        {% endfor %}</select><label>Hrs.Worked:</label><input type="text"
-                        name="mytext1" /><label>Total:</label><input type="text" name="mytext2" /></div>
+                <div><label>Machine Code:</label><select name="dropdown2" id='select21' onchange="changeLabel2()">
+                        <option disabled selected value> -- select an option -- </option>
+                        {% for site in machine %}
+
+                        <option value="{{ site.1}}">{{ site.0 }}</option>
+                        {% endfor %}
+                    </select><label>Hrs.Worked:</label><input type="text" name="mytext1" id="textEmp21"
+                        onkeyup="changeLabel2()" required /><label>Total:</label><label id="lblEmp21">N/A</label></div>
             </div>
             <button class="add_field_button2">Add More Fields</button>
 
@@ -73,21 +78,35 @@
 
 
 <script type="text/javascript">
+    var cont1 = 1;
+    var cont2 = 1;
     $(document).ready(function () {
         var max_fields = 10; //maximum input boxes allowed
         var wrapper = $(".input_fields_wrap"); //Fields wrapper
         var add_button = $(".add_field_button"); //Add button ID
 
+
         var x = 1; //initlal text box count
         $(add_button).click(function (e) { //on add input button click
             e.preventDefault();
+
             if (x < max_fields) { //max input box allowed
                 x++; //text box increment
 
                 $(wrapper).append(
-                    '<div><label>Labor Code:</label><select name="dropdown1">{% for site in job %}<option value="{{ site}}">{{ site }}</option>{% endfor %}</select ><label>Hrs.Worked:</label><input type="text" name="mytext1"/><label>Total:</label><input type="text" name="mytext2"/><a href="#" class="remove_field">Remove</a></div>'
+                    '<div><label>Labor Code:</label><select name="dropdown1" id="select1" onchange="changeLabel1()"> <option disabled selected value> -- select an option -- </option>{% for site in job %}<option value="{{ site.1}}">{{ site.0 }}</option>{% endfor %}</select ><label>Hrs.Worked:</label><input type="text" name="mytext1" id="textEmp1" onkeyup="changeLabel1()" required/><label>Total:</label><label id="lblEmp1">N/A</label><a href="#" class="remove_field">Remove</a></div>'
                 ); //add input box
+
             }
+            cont1++
+
+            var idselect = 'select1' + cont1;
+            document.getElementById('select1').id = idselect;
+            var txtid = 'textEmp1' + cont1;
+            document.getElementById('textEmp1').id = txtid;
+            var idlbl = 'lblEmp1' + cont1;
+            document.getElementById('lblEmp1').id = idlbl;
+
         });
 
         $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
@@ -100,7 +119,8 @@
         var max_fields = 10; //maximum input boxes allowed
         var wrapper = $(".input_fields_wrap2"); //Fields wrapper
         var add_button = $(".add_field_button2"); //Add button ID
-
+        var cont = 2;
+        var idselect = ''
         var x = 1; //initlal text box count
         $(add_button).click(function (e) { //on add input button click
             e.preventDefault();
@@ -108,9 +128,18 @@
                 x++; //text box increment
 
                 $(wrapper).append(
-                    '<div><label>Machine Code:</label><select name="dropdown2">{% for site in machine %}<option value="{{ site}}">{{ site }}</option>{% endfor %}</select ><label>Hrs.Worked:</label><input type="text" name="mytext1"/><label>Total:</label><input type="text" name="mytext2"/><a href="#" class="remove_field">Remove</a></div>'
+                    '<div><label>Machine Code:</label><select name="dropdown2" id="select2" onchange="changeLabel2()"> <option disabled selected value> -- select an option -- </option>{% for site in machine %}<option value="{{ site.1}}">{{ site.0 }}</option>{% endfor %}</select ><label>Hrs.Worked:</label><input type="text" name="mytext1" id="textEmp2" onkeyup="changeLabel2()" required/><label>Total:</label><label id="lblEmp2">N/A</label><a href="#" class="remove_field">Remove</a></div>'
+
                 ); //add input box
             }
+            cont2++
+
+            var idselect = 'select2' + cont2;
+            document.getElementById('select2').id = idselect;
+            var txtid = 'textEmp2' + cont2;
+            document.getElementById('textEmp2').id = txtid;
+            var idlbl = 'lblEmp2' + cont2;
+            document.getElementById('lblEmp2').id = idlbl;
         });
 
         $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
@@ -123,10 +152,33 @@
 
 
 
-    $(document).ready(function () {
-        var titleItem = $("#id_select_code");
-        $("#preview_title").text(titleItem.val())
-    });
+
+    function changeLabel1() {
+        var i;
+        var j = 1;
+        for (i = 0; i < cont1; i++) {
+            let lbl = document.getElementById('lblEmp1' + j);
+            let txt = document.getElementById('textEmp1' + j).value;
+            let empName = document.getElementById('select1' + j).value;
+            let val = txt * empName;
+
+            lbl.innerText = val;       // TREATS EVERY CONTENT AS TEXT.
+            j++;
+        }
+    }
+
+    function changeLabel2() {
+        var i;
+        var j = 1;
+        for (i = 0; i < cont2; i++) {
+            let lbl = document.getElementById('lblEmp2' + j);
+            let txt = document.getElementById('textEmp2' + j).value;
+            let empName = document.getElementById('select2' + j).value;
+            let val = txt * empName;
+            lbl.innerText = val;       // TREATS EVERY CONTENT AS TEXT.
+            j++;
+        }
+    }
 
 
 

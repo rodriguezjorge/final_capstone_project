@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import Timesheet
 from JobCode.models import Job
 from MachineMgt.models import Machine
@@ -18,9 +18,8 @@ class TimesheetCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         data = super(TimesheetCreateView, self).get_context_data(**kwargs)
-        job = Job.objects.values_list('job_code', flat=True)
-        jobrate = Job.objects.values_list('hourly_rate', flat=True).filter()
-        machine = Machine.objects.values_list('machine_code', flat=True)
+        job = Job.objects.values_list('job_code', 'hourly_rate')
+        machine = Machine.objects.values_list('machine_code', 'hourly_rent')
         data['job'] = job
         data['machine'] = machine
         return data
@@ -31,20 +30,21 @@ def get_name(request):
     if request.method == 'POST':
         form = request.POST
         mydict = dict(form.lists())
-        hrs_list = [int(i) for i in mydict['mytext1']]
-        hrs_sum = sum(map(int, mydict['mytext1']))
+        hrs_list1 = [int(i) for i in mydict['mytext1']]
+        
+        hrs_sum = sum(hrs_list1)
+        
         droplist = []
-        for i in mydict['dropdown1']:
-            q = Job.objects.values_list('hourly_rate',
-                                        flat=True).filter(job_code__iexact=i)
-            droplist.append(q[0])
-        for i in mydict['dropdown2']:
-            q = Machine.objects.values_list(
-                'hourly_rent', flat=True).filter(machine_code__iexact=i)
-            droplist.append(q[0])
-        total_list = [x * y for x, y in zip(hrs_list, droplist)]
-        total_sum = sum(total_list)
 
+        for i in mydict['dropdown1']:
+            #     q = Job.objects.values_list('hourly_rate',
+            #                                 flat=True).filter(job_code__iexact=i)
+            droplist.append(float(i))
+        for i in mydict['dropdown2']:
+            droplist.append(float(i))
+        print(droplist)    
+        # total_list = [x * y for x, y in zip(hrs_list, droplist)]
+        total_sum = sum(droplist)
         ts = Timesheet()
         ts.site_code = mydict['site_code'][0]
         ts.date = mydict['date'][0]
@@ -52,8 +52,10 @@ def get_name(request):
         ts.total_hrs = hrs_sum
         ts.total_amount = total_sum
         ts.save()
-
-    return render(request, 'Timecard/output_form.html', {'form': form})
+        # print(hrs_sum)
+        # print(total_sum)
+    # return render(request, 'Timecard/output_form.html', {'form': form})
+    return redirect('/')
 
 
 class TimesheetUpdateView(UpdateView):
